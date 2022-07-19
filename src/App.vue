@@ -7,6 +7,7 @@
         <h4>{{roomData[this.check].title}}</h4>
         <p>{{roomData[this.check].content}}</p>
         <p>{{roomData[this.check].price}}원</p>
+        <Discount/>
         <button @click="modalOpen = false">닫기</button>
       </div>
     </div>
@@ -14,6 +15,10 @@
     <div class="menu">
       <a v-for="(a,i) in menu" :key="i">{{a}}</a>
     </div>
+
+    <!-- <div class="discount">
+      <h4>지금 결제하면 20% 할인</h4>
+    </div> -->
 
     <div v-for="(a,i) in roomData" :key="a" @click="modalOpen = true; this.check = i">
       <img class="room-img" :src="a.image">
@@ -28,6 +33,7 @@
 <script>
 
 import TestData from '../TestData.js'
+import Discount from './components/Discount.vue'
 
 export default {
   name: 'App',
@@ -40,7 +46,8 @@ export default {
     }
   },
   components: {
-  }
+    Discount
+}
 }
 </script>
 
@@ -88,5 +95,12 @@ div {
   border-radius: 8px;
   padding: 20px;
 } 
+
+.discount{
+  background: #eee;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+}
 
 </style>
