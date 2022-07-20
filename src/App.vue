@@ -1,31 +1,30 @@
 <template>
   <div>
 
-    <div class="black-bg" v-if="modalOpen">
-      <div class="white-bg">
-        <img :src="roomData[this.check].image" style="width: 100%;">
-        <h4>{{roomData[this.check].title}}</h4>
-        <p>{{roomData[this.check].content}}</p>
-        <p>{{roomData[this.check].price}}원</p>
-        <Discount/>
-        <button @click="modalOpen = false">닫기</button>
-      </div>
-    </div>
+    <Modal @closeModal="closeModal" :roomData="roomData" :modalOpen="modalOpen" :check="check"/>
 
     <div class="menu">
       <a v-for="(a,i) in menu" :key="i">{{a}}</a>
     </div>
+    <br>
+    <button @click="highPrice()">가격높은순</button>
+    <br><br>
+    <button @click="lowPrice()">가격낮은순</button> 
+    <br><br> 
+    <button @click="returnPrice()">가격 되돌리기</button>
 
     <!-- <div class="discount">
       <h4>지금 결제하면 20% 할인</h4>
     </div> -->
 
-    <div v-for="(a,i) in roomData" :key="a" @click="modalOpen = true; this.check = i">
+    <Card @openModal="openModal(); this.check = $event" v-for="(a, i) in roomData" :key="i" :roomData="a" :modalOpen="modalOpen"/>
+
+    <!-- <div v-for="(a,i) in roomData" :key="a" @click="modalOpen = true; this.check = i">
       <img class="room-img" :src="a.image">
       <h4 >{{a.title}}</h4>
       <p>{{a.content}}</p>
       <p>{{a.price}}원</p>
-    </div>
+    </div> -->
 
   </div>
 </template>
@@ -33,20 +32,44 @@
 <script>
 
 import TestData from '../TestData.js'
-import Discount from './components/Discount.vue'
+import Modal from './components/Modal.vue'
+import Card from './components/Card.vue'
 
 export default {
   name: 'App',
   data() {
     return {
       menu : ['Home', 'Shop', 'About'],
+      originData : [...TestData],
       roomData : TestData,
       modalOpen : false,
       check : 0
     }
   },
+  methods: {
+    openModal(){
+      this.modalOpen = true;
+    },
+    closeModal(){
+      this.modalOpen = false;
+    },
+    lowPrice(){
+      this.roomData.sort(function(a, b){
+        return a.price - b.price
+      });
+    },
+    highPrice(){
+      this.roomData.sort(function(a, b){
+        return b.price - a.price
+      })
+    },
+    returnPrice(){
+      this.roomData = [...this.originData];
+    },
+  },
   components: {
-    Discount
+    Modal,
+    Card
 }
 }
 </script>
@@ -102,5 +125,4 @@ div {
   margin: 10px;
   border-radius: 5px;
 }
-
 </style>
