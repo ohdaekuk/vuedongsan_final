@@ -6,11 +6,10 @@
     <div class="menu">
       <a v-for="(a,i) in menu" :key="i">{{a}}</a>
     </div>
+    <Discount v-if="showDiscount == true" />
     <br>
-    <button @click="highPrice()">가격높은순</button>
-    <br><br>
-    <button @click="lowPrice()">가격낮은순</button> 
-    <br><br> 
+    <button @click="highPrice()">가격높은순</button> &nbsp;
+    <button @click="lowPrice()">가격낮은순</button> &nbsp;
     <button @click="returnPrice()">가격 되돌리기</button>
 
     <!-- <div class="discount">
@@ -34,6 +33,7 @@
 import TestData from '../TestData.js'
 import Modal from './components/Modal.vue'
 import Card from './components/Card.vue'
+import Discount from './components/Discount.vue'
 
 export default {
   name: 'App',
@@ -43,7 +43,8 @@ export default {
       originData : [...TestData],
       roomData : TestData,
       modalOpen : false,
-      check : 0
+      check : 0,
+      showDiscount : true
     }
   },
   methods: {
@@ -69,7 +70,8 @@ export default {
   },
   components: {
     Modal,
-    Card
+    Card,
+    Discount
 }
 }
 </script>

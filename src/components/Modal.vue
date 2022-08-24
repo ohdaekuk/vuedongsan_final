@@ -7,7 +7,6 @@
         <p>{{roomData[this.check].content}}</p>
         <input v-model.number="month">
         <p>{{month}}개월 선택함 : {{month * roomData[this.check].price}}원</p>
-        <Discount/>
         <button @click="closeService()">닫기</button>
       </div>
     </div>
@@ -19,7 +18,7 @@ import Discount from './Discount.vue';
 export default {
   data() {
     return {
-      month : 1   
+      month : 0
     }
   },
   props: {
@@ -33,7 +32,13 @@ export default {
   methods: {
     closeService(){
       this.$emit('closeModal');
-      this.month = 1;
+      this.month = 0;
+    }
+  },
+  beforeUpdate() {
+    if(this.month === 2 || this.month === 1){
+      alert("3 이상의 수를 적어주세욤");
+      this.month = 3;
     }
   },
   watch: {
